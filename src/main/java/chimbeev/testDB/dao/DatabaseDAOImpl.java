@@ -1,5 +1,6 @@
 package chimbeev.testDB.dao;
 
+import chimbeev.testDB.models.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Component
 public class DatabaseDAOImpl implements DatabaseDAO {
-
+    private List<Employee> list = new ArrayList<>();
     private final Connection connection;
 
     @Autowired
@@ -21,18 +22,17 @@ public class DatabaseDAOImpl implements DatabaseDAO {
     }
 
     @Override
-    public List<String> index() throws SQLException {
-        List<String> list = new ArrayList<>();
+    public List<Employee> index() throws SQLException {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * from employee");
         while (resultSet.next()) {
-            list.add(resultSet.getString(1) + " "
-                    + resultSet.getString(2) + " "
-                    + resultSet.getString(3) + " "
-                    + resultSet.getString(4) + " "
-                    + resultSet.getString(5) + " "
-                    + resultSet.getString(6) + " "
-                    + resultSet.getString(7)
+            list.add(new Employee(Integer.parseInt(resultSet.getString(1)),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4),
+                    resultSet.getString(5),
+                    resultSet.getString(6),
+                    resultSet.getString(7))
             );
         }
         return list;
@@ -60,9 +60,11 @@ public class DatabaseDAOImpl implements DatabaseDAO {
     }
 
     @Override
-    public void add(String name, String lastName, String gender, String date, String countryOfBirth, String email) throws SQLException {
+    public void add(Employee employee) throws SQLException {
         Statement statement = connection.createStatement();
         statement.executeUpdate("insert into employee (first_name, last_name, gender, email, date_of_birth, country_of_birth) " +
-                "values ('" + name + "', '" + lastName + "', '" + gender + "', '" + email + "', '" + date + "', '" + countryOfBirth + "')");
+                "values ('" + employee.getName() + "', '" + employee.getLastName() + "', '"
+                + employee.getGender() + "', '" + employee.getEmail() + "', '" + employee.getDateOfBirth() + "', '" + employee.getCountry() + "')");
+        list.add(employee);
     }
 }

@@ -5,8 +5,13 @@
     <title>Hello</title>
 </head>
 <body>
-<div th:each="string : ${employers}">
-    <a th:text="${string}">employee</a>
+<div th:each="employee : ${employers}">
+    <a th:href="@{/employers/{id}(id=${employee.getId()})}"
+       th:text="${employee.getId()} + ${employee.getName()} +
+                  ${employee.getLastName()} + ${employee.getGender()} +
+                    ${employee.getEmail()} + ${employee.getDateOfBirth()}
+                    + ${employee.getCountry()}"
+    >user</a>
 </div>
 </body>
 </html>
