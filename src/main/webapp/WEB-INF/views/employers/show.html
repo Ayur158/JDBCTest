@@ -5,6 +5,9 @@
     <title>Employee</title>
 </head>
 <body>
-    <a th:text="${employee}">employee</a>
+    <p th:text="${employee.toString()}">employee</p>
+    <a th:href="@{/employers/{id}/edit (id=${employee.getId()})}">Edit</a>
+    <form th:method="DELETE" th:action="@{/employers/{id} (id=${employee.getId()})}">
+        <input type="submit" value="Delete">
 </body>
 </html>

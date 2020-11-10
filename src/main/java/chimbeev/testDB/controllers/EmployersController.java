@@ -33,9 +33,25 @@ public class EmployersController {
     public String newEmployee(@ModelAttribute("employee") Employee employee) {
         return "employers/new";
     }
+
     @PostMapping
     public String create (@ModelAttribute("employee") Employee employee) throws SQLException {
         dao.add(employee);
+        return "redirect:/employers";
+    }
+    @GetMapping("/{id}/edit")
+    public String edit(Model model, @PathVariable("id") int id) throws SQLException {
+        model.addAttribute("employee", dao.show(id));
+        return "employers/edit";
+    }
+    @PatchMapping("/{id}")
+    public String update (@ModelAttribute("employee") Employee employee, @PathVariable("id") int id) throws SQLException {
+        dao.update(id, employee);
+        return "redirect:/employers";
+    }
+    @DeleteMapping("/{id}")
+    public String drop (@PathVariable("id") int id) throws SQLException {
+        dao.drop(id);
         return "redirect:/employers";
     }
 }

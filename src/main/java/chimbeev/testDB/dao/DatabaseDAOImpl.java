@@ -39,17 +39,17 @@ public class DatabaseDAOImpl implements DatabaseDAO {
     }
 
     @Override
-    public String show(int id) throws SQLException {
+    public Employee show(int id) throws SQLException {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM  employee where id=" + id);
         resultSet.next();
-        String employee = resultSet.getString(1) + " "
-                + resultSet.getString(2) + " "
-                + resultSet.getString(3) + " "
-                + resultSet.getString(4) + " "
-                + resultSet.getString(5) + " "
-                + resultSet.getString(6) + " "
-                + resultSet.getString(7);
+        Employee employee = new Employee (Integer.parseInt(resultSet.getString(1)),
+                resultSet.getString(2),
+                resultSet.getString(3),
+                resultSet.getString(4),
+                resultSet.getString(5),
+                resultSet.getString(6),
+                resultSet.getString(7));
         return employee;
     }
 
@@ -57,6 +57,7 @@ public class DatabaseDAOImpl implements DatabaseDAO {
     public void drop(int id) throws SQLException {
         Statement statement = connection.createStatement();
         statement.executeUpdate("DELETE FROM  employee where id=" + id);
+        list.removeIf(p -> p.getId() == id);
     }
 
     @Override
@@ -66,5 +67,19 @@ public class DatabaseDAOImpl implements DatabaseDAO {
                 "values ('" + employee.getName() + "', '" + employee.getLastName() + "', '"
                 + employee.getGender() + "', '" + employee.getEmail() + "', '" + employee.getDateOfBirth() + "', '" + employee.getCountry() + "')");
         list.add(employee);
+    }
+    @Override
+    public void update(int id, Employee updatedEmployee) throws SQLException {
+        Employee employeeToBeUpdated = show(id);
+        employeeToBeUpdated.setName(updatedEmployee.getName());
+        employeeToBeUpdated.setLastName(updatedEmployee.getLastName());
+        employeeToBeUpdated.setCountry(updatedEmployee.getCountry());
+        employeeToBeUpdated.setDateOfBirth(employeeToBeUpdated.getDateOfBirth());
+        employeeToBeUpdated.setEmail(updatedEmployee.getEmail());
+        employeeToBeUpdated.setGender(updatedEmployee.getGender());
+        Statement statement = connection.createStatement();
+        statement.executeUpdate("update employee set first_name='" + updatedEmployee.getName() + "', last_name='" + updatedEmployee.getLastName()
+         + "', gender='" + updatedEmployee.getGender() +"', email='" + updatedEmployee.getEmail() + "', date_of_birth='" + updatedEmployee.getDateOfBirth()
+        + "', country_of_birth='" + updatedEmployee.getCountry() + "' where id='" + updatedEmployee.getId()+"'");
     }
 }

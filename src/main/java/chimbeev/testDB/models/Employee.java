@@ -13,6 +13,9 @@ public class Employee {
         this.dateOfBirth = dateOfBirth;
         this.country = country;
     }
+    public Employee() {
+
+    }
 
     public int getId() {
         return id;
@@ -68,5 +71,12 @@ public class Employee {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee " + getId() + " name: " + getName()  + " last name: " + getLastName() +
+                "gender: " + getGender() + "email: " + getEmail() + "date of birth: " + getDateOfBirth()
+                + "country :" + getCountry();
     }
 }
