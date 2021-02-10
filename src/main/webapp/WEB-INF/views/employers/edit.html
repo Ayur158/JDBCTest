@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
+    <link href="style.css" rel="stylesheet" type="text/css">
     <meta charset="UTF-8">
     <title>Edit employee</title>
 </head>
@@ -8,6 +9,7 @@
 <form th:method="PATCH" th:action="@{/employers/{id} (id=${employee.getId()})}" th:object="${employee}">
     <label for="name"> Имя работника: </label>
     <input type="text" th:field="*{name}" id="name"/>
+    <div style="color:darkred" th:if="${#fields.hasErrors('name')}" th:errors="*{name}" >Name error</div>
     <br/>
     <label for="lastName">Фамилия работника: </label>
     <input type="text" th:field="*{lastName}" id="lastName"/>
@@ -17,9 +19,11 @@
     <br/>
     <label for="email">Электронная почта: </label>
     <input type="text" th:field="*{email}" id="email"/>
+    <div style="color:darkred" th:if="${#fields.hasErrors('email')}" th:errors="*{email}" >Email error</div>
     <br/>
     <label for="dateOfBirth">Дата рождения: </label>
     <input type="text" th:field="*{dateOfBirth}" id="dateOfBirth"/>
+    <div style="color:darkred" th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}" >Email error</div>
     <br/>
     <label for="country">Страна: </label>
     <input type="text" th:field="*{country}" id="country"/>

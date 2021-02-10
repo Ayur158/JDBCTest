@@ -1,8 +1,23 @@
 package chimbeev.testDB.models;
 
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+
 public class Employee {
     private int id;
-    private String name, lastName, gender, email, dateOfBirth, country;
+    @NotEmpty(message = "Name should not be empty")
+    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
+    private String name;
+    @NotEmpty(message = "Email shouldnt be empty")
+    @Email(message = "Email should be valid")
+    private String email;
+    private String lastName, gender, country;
+    @Pattern(regexp = "\\d{4}[-]\\d{2}[-]\\d{2}", message = "Date should follow pattern yyyy-mm-dd")
+    private String dateOfBirth;
 
     public Employee(int id, String name, String lastName, String gender, String email, String dateOfBirth, String country) {
         this.id = id;

@@ -5,8 +5,10 @@ import chimbeev.testDB.models.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.sql.SQLException;
 
 @Controller
@@ -35,7 +37,8 @@ public class EmployersController {
     }
 
     @PostMapping
-    public String create (@ModelAttribute("employee") Employee employee) throws SQLException {
+    public String create (@ModelAttribute("employee") @Valid Employee employee, BindingResult result) throws SQLException {
+        if (result.hasErrors()) return "employers/new";
         dao.add(employee);
         return "redirect:/employers";
     }
@@ -45,7 +48,9 @@ public class EmployersController {
         return "employers/edit";
     }
     @PatchMapping("/{id}")
-    public String update (@ModelAttribute("employee") Employee employee, @PathVariable("id") int id) throws SQLException {
+    public String update (@ModelAttribute("employee") @Valid Employee employee,
+                          BindingResult result, @PathVariable("id") int id) throws SQLException {
+        if (result.hasErrors()) return "employers/edit";
         dao.update(id, employee);
         return "redirect:/employers";
     }
